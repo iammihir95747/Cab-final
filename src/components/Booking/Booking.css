@@ -1,0 +1,91 @@
+.booking-form-section {
+  max-width: 500px; /* reduced from 600px */
+  margin: 30px auto;
+  background: #f3f4f6;
+  padding: 25px 30px; /* slightly tighter */
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(121, 121, 121, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.booking-title {
+  text-align: center;
+  font-size: 28px;
+  color: #000000;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.booking-subtitle {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+
+.booking-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.booking-form input,
+.booking-form textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  background: #fefefe;
+  transition: border-color 0.3s ease;
+}
+
+.booking-form input:focus,
+.booking-form textarea:focus {
+  border-color: #f5a100;
+  outline: none;
+}
+
+.booking-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.booking-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #f5a100;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.booking-form button:hover {
+  background-color: #e29100;
+}
+
+.confirmation-message,
+.error-message {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: 500;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.confirmation-message {
+  color: #155724;
+  background: #d4edda;
+}
+
+.error-message {
+  color: #721c24;
+  background: #f8d7da;
+}
+
