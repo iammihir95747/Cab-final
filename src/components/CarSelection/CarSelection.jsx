@@ -4,7 +4,7 @@ import axios from 'axios';
 import './CarSelection.css';
 import Footer from "../Footer/Footer"
 
-const API_VITE = "https://cab-server-master-finalversion.vercel.app";
+const API_VITE = "https://cabservermaster.onrender.com";
 const WHATSAPP_BUSINESS_NUMBER = '+919574713004';
 
 const CarSelection = () => {
