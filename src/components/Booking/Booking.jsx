@@ -50,7 +50,7 @@ const Booking = () => {
     setErrorMessage('');
 
     try {
-      const response = await axios.post('https://cab-server-master-finalversion.vercel.app/api/send-booking', formData);
+      const response = await axios.post('https://cabservermaster.onrender.com/api/send-booking', formData);
 
       if (response.data.success) {
         setConfirmationMessage('✅ Booking Sent! Our driver will contact you.');
