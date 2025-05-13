@@ -14,7 +14,7 @@ const BookNow = ({ pickupLocation, dropLocation, vehicleType, phoneNumber, drive
     };
 
     axios
-      .post('http://localhost:5001/api/send-booking', bookingDetails)
+      .post('https://cab-server-master-finalversion.vercel.app/api/send-booking', bookingDetails)
       .then((response) => {
         console.log('Booking confirmed:', response.data);
       })
