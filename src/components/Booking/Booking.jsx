@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import './Booking.css';
 import Footer from '../Footer/Footer';
-import { Helmet } from "react-helmet";
-
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import emailjs from 'emailjs-com';
+import './Booking.css';
 
 const Booking = () => {
   const navigate = useNavigate();
@@ -12,23 +11,33 @@ const Booking = () => {
 
   const vehicleTypeFromCar = location.state?.vehicleType || '';
   const carTypeFromCar = location.state?.carType || '';
+  const previousForm = location.state?.formData || {};
 
   const [formData, setFormData] = useState({
-    name: '',
-    phoneNumber: '',
-    pickupLocation: '',
-    dropLocation: '',
-    vehicleType: vehicleTypeFromCar ? `${vehicleTypeFromCar} (${carTypeFromCar})` : '',
-    pickupDateTime: '',
-    notes: '',
+    name: previousForm.name || '',
+    phoneNumber: previousForm.phoneNumber || '',
+    pickupLocation: previousForm.pickupLocation || '',
+    dropLocation: previousForm.dropLocation || '',
+    vehicleType: vehicleTypeFromCar
+      ? `${vehicleTypeFromCar} (${carTypeFromCar})`
+      : previousForm.vehicleType || '',
+    pickupDateTime: previousForm.pickupDateTime || '',
+    notes: previousForm.notes || '',
   });
 
-  const [confirmationMessage, setConfirmationMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [isCarSelected, setIsCarSelected] = useState(!!(vehicleTypeFromCar || previousForm.vehicleType));
 
-  // State to track if the car has been selected
-  const [isCarSelected, setIsCarSelected] = useState(!!formData.vehicleType);
+  useEffect(() => {
+    if (vehicleTypeFromCar) {
+      setFormData((prev) => ({
+        ...prev,
+        vehicleType: `${vehicleTypeFromCar} (${carTypeFromCar})`,
+      }));
+      setIsCarSelected(true);
+    }
+  }, [vehicleTypeFromCar, carTypeFromCar]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,149 +47,136 @@ const Booking = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const validateForm = () => {
+    const { name, phoneNumber, pickupLocation, dropLocation, pickupDateTime, vehicleType } = formData;
+    if (!name || !phoneNumber || !pickupLocation || !dropLocation || !pickupDateTime || !vehicleType) {
+      return 'Please fill in all required fields.';
+    }
+
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      return 'Enter a valid 10-digit Indian phone number.';
+    }
+
+    return '';
+  };
+
+  const buildWhatsAppMessage = () => {
+    return `
+🚕 *New Booking Request* 🚕
+Name: ${formData.name}
+Phone: ${formData.phoneNumber}
+Pickup: ${formData.pickupLocation}
+Drop: ${formData.dropLocation}
+Vehicle: ${formData.vehicleType}
+Pickup Date & Time: ${formData.pickupDateTime}
+Notes: ${formData.notes || 'None'}
+    `;
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.vehicleType) {
-      setErrorMessage('Please select a vehicle before submitting.');
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    const validationError = validateForm();
+    if (validationError) {
+      setErrorMessage('❌ ' + validationError);
       return;
     }
 
-    setIsSubmitting(true);
-    setConfirmationMessage('');
-    setErrorMessage('');
+    const driverMessageParams = {
+      name: formData.name,
+      phoneNumber: formData.phoneNumber,
+      pickupLocation: formData.pickupLocation,
+      dropLocation: formData.dropLocation,
+      vehicleType: formData.vehicleType,
+      pickupDateTime: formData.pickupDateTime,
+      notes: formData.notes || 'None',
+      to_email: 'gohelvivek0000@gmail.com',
+    };
 
-    try {
-      const response = await axios.post('https://cabservermaster.onrender.com/api/send-booking', formData);
+    const userReplyParams = {
+      name: formData.name,
+      user_email: formData.phoneNumber , 
+      title: 'Your Booking Confirmation',
+    };
 
-      if (response.data.success) {
-        setConfirmationMessage('✅ Booking Sent! Our driver will contact you.');
-        setFormData({
-          name: '',
-          phoneNumber: '',
-          pickupLocation: '',
-          dropLocation: '',
-          vehicleType: '',
-          pickupDateTime: '',
-          notes: '',
-        });
-      } else {
-        setErrorMessage('❌ Error submitting booking. Try again.');
-      }
-    } catch (error) {
-      setErrorMessage('❌ ' + error.message);
-    } finally {
-      setIsSubmitting(false);
-    }
+    emailjs.send('service_x81hdl5', 'template_l3y1iac', driverMessageParams, '1EUYac5PvrZJTLjGS')
+      .then((response) => {
+        console.log('Driver email sent!', response);
+      })
+      .catch((error) => {
+        console.error('Error sending to driver:', error);
+      });
+
+    emailjs.send('service_x81hdl5', 'template_ds9zdxl', userReplyParams, '1EUYac5PvrZJTLjGS')
+      .then((response) => {
+        console.log('User auto-reply sent!', response);
+        setSuccessMessage('✅ Booking sent to driver and confirmation sent to your email!');
+        openWhatsAppLink(buildWhatsAppMessage());
+      })
+      .catch((error) => {
+        console.error('Error sending auto-reply:', error);
+        setErrorMessage('❌ Auto-reply failed: ' + error.text);
+      });
+  };
+
+  const openWhatsAppLink = (message) => {
+    const encodedMessage = encodeURIComponent(message);
+    const driverPhoneNumber = '919054891423';
+    const whatsappLink = `https://wa.me/${driverPhoneNumber}?text=${encodedMessage}`;
+    window.open(whatsappLink, '_blank');
   };
 
   const handleSelectVehicle = () => {
-    navigate('/vehicles', { state: { fromBooking: true } });
+    navigate('/vehicles', { state: { fromBooking: true, formData } });
   };
 
   const handleChangeVehicle = () => {
-    setIsCarSelected(false); // Reset car selection state
-    setFormData({ ...formData, vehicleType: '' }); // Clear the selected vehicle
+    setIsCarSelected(false);
+    setFormData((prev) => ({
+      ...prev,
+      vehicleType: '',
+    }));
   };
 
   return (
     <>
-       <Helmet>
-        <title>ChamudaCabs | Bookings</title>
-        <meta name="description" content="ChamudaCabs is Gujarat’s trusted taxi booking website. Book safe, affordable cabs online for local and outstation rides anytime." />
-        <meta name="keywords" content="ChamudaCabs, taxi booking website, cab booking Gujarat, online taxi service, book taxi online, taxi near me, car rental Gujarat" />
+        <Helmet>
+        <title>Gujarat to Mumbai Taxi | Affordable Cab Booking Service</title>
+        <meta 
+          name="description" 
+          content="Book reliable taxi service from Gujarat to Mumbai. Affordable one-way and round-trip cab booking with experienced drivers." 
+        />
+        <meta 
+          name="keywords" 
+          content="Gujarat to Mumbai taxi, taxi booking Gujarat, cab from Gujarat to Mumbai, online cab Gujarat, Mumbai taxi service" 
+        />
+        <link rel="canonical" href="https://yourwebsite.com/gujarat-to-mumbai-taxi" />
       </Helmet>
+
       <div className="booking-form-section">
         <h2 className="booking-title">Book Your Ride</h2>
         <form onSubmit={handleSubmit} className="booking-form">
-          <div>
-            <input 
-              type="text" 
-              name="name" 
-              value={formData.name} 
-              onChange={handleChange} 
-              placeholder="Name" 
-              required 
-            />
-          </div>
-          <div>
-            <input 
-              type="text" 
-              name="phoneNumber" 
-              value={formData.phoneNumber} 
-              onChange={handleChange} 
-              placeholder="Phone Number" 
-              required 
-            />
-          </div>
-          <div>
-            <input 
-              type="text" 
-              name="pickupLocation" 
-              value={formData.pickupLocation} 
-              onChange={handleChange} 
-              placeholder="Pickup Location" 
-              required 
-            />
-          </div>
-          <div>
-            <input 
-              type="text" 
-              name="dropLocation" 
-              value={formData.dropLocation} 
-              onChange={handleChange} 
-              placeholder="Drop Location" 
-              required 
-            />
-          </div>
-
-          <div>
-            {isCarSelected ? (
-              <>
-                <input 
-                  type="text" 
-                  name="vehicleType" 
-                  value={formData.vehicleType} 
-                  readOnly 
-                  placeholder="Vehicle Type" 
-                  required 
-                />
-                <button type="button" onClick={handleChangeVehicle}>
-                  Change Car
-                </button>
-              </>
-            ) : (
-              <button type="button" onClick={handleSelectVehicle}>
-                Select Vehicle
-              </button>
-            )}
-          </div>
-
-          <div>
-            <input 
-              type="datetime-local" 
-              name="pickupDateTime" 
-              value={formData.pickupDateTime} 
-              onChange={handleChange} 
-              required 
-              placeholder="Pickup Date & Time"
-            />
-          </div>
-
-          <div>
-            <textarea 
-              name="notes" 
-              value={formData.notes} 
-              onChange={handleChange} 
-              placeholder="Notes (optional)"
-            />
-          </div>
-
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Submitting...' : 'Submit Booking'}
-          </button>
+          {isCarSelected ? (
+            <>
+              <input type="text" name="vehicleType" value={formData.vehicleType} readOnly required />
+              <button type="button" onClick={handleChangeVehicle}>Change Car</button>
+            </>
+          ) : (
+            <button type="button" onClick={handleSelectVehicle}>Select Vehicle</button>
+          )}
+          <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
+          <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone Number" required />
+          <input type="text" name="pickupLocation" value={formData.pickupLocation} onChange={handleChange} placeholder="Pickup Location" required />
+          <input type="text" name="dropLocation" value={formData.dropLocation} onChange={handleChange} placeholder="Drop Location" required />
+          <input type="datetime-local" name="pickupDateTime" value={formData.pickupDateTime} onChange={handleChange} required />
+          <textarea name="notes" value={formData.notes} onChange={handleChange} placeholder="Notes (optional)" />
+          <button type="submit">Send via WhatsApp and Email</button>
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
-          {confirmationMessage && <p className="confirmation-message">{confirmationMessage}</p>}
+          {successMessage && <p className="success-message">{successMessage}</p>}
         </form>
       </div>
 

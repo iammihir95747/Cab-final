@@ -2,17 +2,25 @@ import React from "react";
 import { motion } from "framer-motion";
 import "./About.css"; // Import external CSS
 import Footer  from "../Footer/Footer";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 
 const About = () => {
   return (
     <>
-      <Helmet>
-        <title>ChamudaCabs | About</title>
-        <meta name="description" content="ChamudaCabs is Gujarat’s trusted taxi booking website. Book safe, affordable cabs online for local and outstation rides anytime." />
-        <meta name="keywords" content="ChamudaCabs, taxi booking website, cab booking Gujarat, online taxi service, book taxi online, taxi near me, car rental Gujarat" />
-      </Helmet>
+       <Helmet>
+  <title>Gujarat to Mumbai Taxi | Affordable & Reliable Cab Booking Service</title>
+  <meta
+    name="description"
+    content="Book reliable and affordable taxi service from Gujarat to Mumbai. Best cab booking with experienced drivers, one-way and round-trip options, 24/7 customer support."
+  />
+  <meta
+    name="keywords"
+    content="Gujarat to Mumbai taxi, taxi booking Gujarat, cab from Gujarat to Mumbai, online cab booking Gujarat, Mumbai taxi service, Gujarat airport taxi, affordable taxi Gujarat, one way taxi Gujarat to Mumbai, best taxi service Gujarat"
+  />
+  <link rel="canonical" href="https://Chamundacabs.com/gujarat-to-mumbai-taxi" />
+</Helmet>
+
     <section className="about-section">
       <motion.div 
         initial={{ opacity: 0, y: 50 }} 

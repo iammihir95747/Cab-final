@@ -5,12 +5,9 @@ import Navbar from './components/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 import './App.css';
-import Register from './Auth/Register';
-import Login from './Auth/Login';
+import { HelmetProvider } from 'react-helmet-async';
 import Homepage from './components/Homepage';
-import Profile from './Auth/Profile';
 import Services from './components/Services';
-import Category from './Auth/Category';
 import Booking from './components/Booking/Booking';
 import Places from './components/Places/Places'
 import Vehicles from './components/Vehicles/Vehicles';
@@ -18,7 +15,7 @@ import Vehicles from './components/Vehicles/Vehicles';
 function Layout() {
     return (
         <>
-           
+               <HelmetProvider>
             <Navbar /> {/* Always show Home now */}
             <Routes>
                 <Route path="/" element={<Homepage />} />
@@ -26,14 +23,10 @@ function Layout() {
                 <Route path="/about" element={<About />} />
                 <Route path="/Services" element={<Services />} />
                 <Route path="/Booking" element={<Booking />} />
-                <Route path="/Register" element={<Register />} />
-                <Route path="/Login" element={<Login />} />
-                <Route path="/Profile" element={<Profile />} />
                 <Route path="/Places" element={<Places />} />
-                <Route path="/Vehicles" element={<Vehicles />} />
-                <Route path="/category" element={<Category />} />
-               
+                <Route path="/Vehicles" element={<Vehicles />} />               
             </Routes>
+            </HelmetProvider>
         </>
     );
 }
