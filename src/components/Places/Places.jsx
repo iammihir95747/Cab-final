@@ -28,6 +28,11 @@ const famousPlaces = [
     image: 'https://www.holidify.com/images/cmsuploads/compressed/shutterstock_1317845540_20191031110021_20191031110103.png',
     description: 'The Statue of Unity is the world\'s tallest statue',
   },
+  {
+    name: 'Mumbai Siddhivinayak temple',
+    image: 'https://i0.wp.com/www.opindia.com/wp-content/uploads/2020/08/Siddhivinayak-Temple_600-1280x720-1.jpg?fit=1280%2C720&ssl=1',
+    description: 'The Shri Siddhivinayak Ganapati Mandir is a Hindu temple dedicated to Ganesha.',
+  },
 ];
 
 const allPlaces = [
@@ -55,13 +60,16 @@ export default function Places() {
   <title>Gujarat to Mumbai Taxi | Affordable & Reliable Cab Booking Service</title>
   <meta
     name="description"
-    content="Book reliable and affordable taxi service from Gujarat to Mumbai. Best cab booking with experienced drivers, one-way and round-trip options, 24/7 customer support."
+    content="Book reliable and affordable taxi service from Gujarat. Best cab booking with experienced drivers, one-way and round-trip options, 24/7 customer support."
   />
   <meta
     name="keywords"
-    content="Gujarat to Mumbai taxi, taxi booking Gujarat, cab from Gujarat to Mumbai, online cab booking Gujarat, Mumbai taxi service, Gujarat airport taxi, affordable taxi Gujarat, one way taxi Gujarat to Mumbai, best taxi service Gujarat"
+  content="Chamunda Cab, taxi service, reliable cab, one-way taxi, round trip cab, airport transfer, local taxi, hatchback taxi, sedan taxi, SUV taxi, cab booking, taxi near me, hassle-free ride" 
+  
   />
-  <link rel="canonical" href="https://Chamundacabs.com/gujarat-to-mumbai-taxi" />
+
+
+  <link rel="canonical" href="https://www.chamundacab.com/Places" />
 </Helmet>
 
       <div className="tourism-container">

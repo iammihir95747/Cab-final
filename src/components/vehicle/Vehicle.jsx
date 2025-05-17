@@ -23,7 +23,7 @@ const Vehicle = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5001/api/vehicles')
+      .get('https://cabservermaster.onrender.com/api/vehicles')
       .then((response) => {
         if (response.data && response.data.vehicles) {
           setVehicles(response.data.vehicles);
@@ -47,7 +47,7 @@ const Vehicle = () => {
 
     if (selectedVehicle) {
       axios
-        .put(`http://localhost:5001/api/vehicles/update/${selectedVehicle._id}`, formData)
+        .put(`https://cabservermaster.onrender.com/api/vehicles/update/${selectedVehicle._id}`, formData)
         .then((response) => {
           setVehicles(
             vehicles.map((vehicle) =>
@@ -61,7 +61,7 @@ const Vehicle = () => {
         });
     } else {
       axios
-        .post('http://localhost:5001/api/vehicles/add', formData)
+        .post('https://cabservermaster.onrender.com/api/vehicles/add', formData)
         .then((response) => {
           setVehicles([...vehicles, response.data.vehicle]);
           resetForm();
@@ -98,7 +98,7 @@ const Vehicle = () => {
 
   const handleDelete = (vehicleId) => {
     axios
-      .delete(`http://localhost:5001/api/vehicles/delete/${vehicleId}`)
+      .delete(`https://cabservermaster.onrender.com/api/vehicles/delete/${vehicleId}`)
       .then(() => {
         setVehicles(vehicles.filter((vehicle) => vehicle._id !== vehicleId));
       })
@@ -120,16 +120,14 @@ const Vehicle = () => {
   return (
     <div>
      <Helmet>
-  <title>Gujarat to Mumbai Taxi | Affordable & Reliable Cab Booking Service</title>
+  <title> chamundacab | Affordable & Reliable Cab Booking Service</title>
   <meta
     name="description"
-    content="Book reliable and affordable taxi service from Gujarat to Mumbai. Best cab booking with experienced drivers, one-way and round-trip options, 24/7 customer support."
+    content="Book reliable and affordable taxi service from Gujarat . Best cab booking with experienced drivers, one-way and round-trip options, 24/7 customer support."
   />
-  <meta
-    name="keywords"
-    content="Gujarat to Mumbai taxi, taxi booking Gujarat, cab from Gujarat to Mumbai, online cab booking Gujarat, Mumbai taxi service, Gujarat airport taxi, affordable taxi Gujarat, one way taxi Gujarat to Mumbai, best taxi service Gujarat"
-  />
-  <link rel="canonical" href="https://Chamundacabs.com/gujarat-to-mumbai-taxi" />
+ <meta name="keywords" content="Chamunda Cab, taxi service, reliable cab, one-way taxi, round trip cab, airport transfer, local taxi, hatchback taxi, sedan taxi, SUV taxi, cab booking, taxi near me, hassle-free ride" />
+
+  <link rel="canonical" href="https://www.chamundacab.com/Vehicles" />
 </Helmet>
 
 
