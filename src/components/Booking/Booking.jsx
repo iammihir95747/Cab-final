@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Footer from '../Footer/Footer';
-import { Helmet, HelmetProvider } from "react-helmet-async";
 import emailjs from 'emailjs-com';
 import './Booking.css';
 
@@ -143,16 +142,7 @@ Notes: ${formData.notes || 'None'}
 
   return (
     <>
-        <Helmet>
-        <title>Gujarat to Mumbai Taxi | Affordable Cab Booking Service</title>
-        <meta 
-          name="description" 
-          content="Book reliable taxi service from Gujarat. Chamunda Cab offers reliable taxi services with Hatchbacks, Sedans, and SUVs for one-way trips, round trips, airport transfers, and local visits. Book now for a hassle-free ride!." 
-        />
-       <meta name="keywords" content="Chamunda Cab, taxi service, reliable cab, one-way taxi, round trip cab, airport transfer, local taxi, hatchback taxi, sedan taxi, SUV taxi, cab booking, taxi near me, hassle-free ride" />
-
-        <link rel="canonical" href="https://www.chamundacab.com/Booking" />
-      </Helmet>
+     
 
       <div className="booking-form-section">
         <h2 className="booking-title">Book Your Ride</h2>

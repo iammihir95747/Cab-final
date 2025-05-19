@@ -1,14 +1,10 @@
-// CarSelection.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 import './CarSelection.css';
-import { Helmet } from "react-helmet-async";
-
-import Footer from "../Footer/Footer";
 
 const API_VITE = "https://cabservermaster.onrender.com";
-const WHATSAPP_BUSINESS_NUMBER = '+919574713004';
 
 const CarSelection = () => {
   const [cars, setCars] = useState([]);
@@ -33,7 +29,6 @@ const CarSelection = () => {
   };
 
   const handleBookNow = (car) => {
-    // Clear previous form data; only pass selected vehicle
     navigate('/booking', {
       state: {
         vehicleType: car.modelName,
@@ -47,52 +42,48 @@ const CarSelection = () => {
   }, []);
 
   return (
-    <>
-       <Helmet>
-  <title>Gujarat to Mumbai Taxi | Affordable & Reliable Cab Booking Service</title>
-  <meta
-    name="description"
-    content="Book reliable and affordable taxi service from Gujarat. Best cab booking with experienced drivers, one-way and round-trip options, 24/7 customer support."
-  />
-  <meta name="keywords" content="Chamunda Cab, taxi service, reliable cab, one-way taxi, round trip cab, airport transfer, local taxi, hatchback taxi, sedan taxi, SUV taxi, cab booking, taxi near me, hassle-free ride" />
-
-  <link rel="canonical" href="https://www.chamundacab.com/Vehicles" />
-</Helmet>
-
-      <section id="car-selection" className="container my-5">
-        <h2 className="text-center mb-4">Select a Car</h2>
-        <div className="row">
-          {loading ? (
-            <p>🚗 Car is loading...</p>
-          ) : error ? (
-            <p className="text-danger">❌ {error}</p>
-          ) : (
-            cars.map((car, index) => (
-              <div key={index} className="car-item col-md-4 col-sm-6 col-12">
-                <div className="car-box">
-                  <img
-                    src={car.imageUrl}
-                    alt={car.modelName}
-                    className="car-image"
-                  />
-                  <div className="car-info">
-                    <h5>{car.modelName}</h5>
-                    <p>Type: {car.type}</p>
-                    <p>Seats: {car.capacity}</p>
-                    <p>Rate: ₹{car.ratePerKm}/km</p>
-                    <p>Base Fare: ₹{car.baseFare}</p>
-                    <button className="book-btn" onClick={() => handleBookNow(car)}>
-                      Book Now
-                    </button>
-                  </div>
+    <section id="car-selection" className="container my-5">
+      <h2 className="text-center mb-4">Select a Car</h2>
+      <div className="row">
+        {loading ? (
+          <div className="dot-spinner-container">
+            <span className="dot">.</span>
+            <span className="dot">.</span>
+            <span className="dot">.</span>
+          </div>
+        ) : error ? (
+          <p className="text-danger text-center">❌ {error}</p>
+        ) : (
+          cars.map((car, index) => (
+            <motion.div
+              key={index}
+              className="car-item col-md-4 col-sm-6 col-12 mb-4"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <div className="car-box">
+                <img
+                  src={car.imageUrl}
+                  alt={car.modelName}
+                  className="car-image"
+                />
+                <div className="car-info">
+                  <h5>{car.modelName}</h5>
+                  <p>Type: {car.type}</p>
+                  <p>Seats: {car.capacity}</p>
+                  <p>Rate: ₹{car.ratePerKm}/km</p>
+                  <p>Base Fare: ₹{car.baseFare}</p>
+                  <button className="book-btn" onClick={() => handleBookNow(car)}>
+                    Book Now
+                  </button>
                 </div>
               </div>
-            ))
-          )}
-        </div>
-      </section>
-     
-    </>
+            </motion.div>
+          ))
+        )}
+      </div>
+    </section>
   );
 };
 

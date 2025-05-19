@@ -4,7 +4,6 @@ import "./Nav.css";
 import React from 'react';
 import Cablogo from './Images/Cablogo.jpg';
 import 'font-awesome/css/font-awesome.min.css';
-import {Helmet} from 'react-helmet-async';
 
 
 const Navbar = () => {
@@ -57,20 +56,10 @@ const Navbar = () => {
 
   return (
     <>
-    <Helmet>
-  <title>Gujarat to Mumbai Taxi | Affordable & Reliable Cab Booking Service</title>
-  <meta
-    name="description"
-    content="Book reliable and affordable taxi service from Gujarat to Mumbai. Best cab booking with experienced drivers, one-way and round-trip options, 24/7 customer support."
-  />
-<meta name="keywords" content="Chamunda Cab, taxi service, reliable cab, one-way taxi, round trip cab, airport transfer, local taxi, hatchback taxi, sedan taxi, SUV taxi, cab booking, taxi near me, hassle-free ride" />
-
-  <link rel="canonical" href="https://Chamundacab.com/" />
-</Helmet>
-
+ 
     <nav className="navbar">
       <div className="nav-logo">
-        <Link to="/">
+        <Link to="/homepage">
         <img src={Cablogo}/>
         </Link>
       </div>
@@ -80,11 +69,11 @@ const Navbar = () => {
       </div>
 
       <ul className={`nav-menu ${menuOpen ? "active" : ""}`}>
-        <li><Link to="/Homepage" className="nav-link" onClick={() => setMenuOpen(false)}>Home</Link></li>
+        <li><Link to="/homepage" className="nav-link" onClick={() => setMenuOpen(false)}>Home</Link></li>
         <li><Link to="/services" className="nav-link" onClick={() => setMenuOpen(false)}>Services</Link></li>
-        <li><Link to="/Places" className="nav-link" onClick={() => setMenuOpen(false)}>Places</Link></li>
-        <li><Link to="/Vehicles" className="nav-link" onClick={() => setMenuOpen(false)}>Vehicles</Link></li>
-        <li><Link to="/About" className="nav-link" onClick={() => setMenuOpen(false)}>About</Link></li>
+        <li><Link to="/places" className="nav-link" onClick={() => setMenuOpen(false)}>Places</Link></li>
+        <li><Link to="/vehicles" className="nav-link" onClick={() => setMenuOpen(false)}>Vehicles</Link></li>
+        <li><Link to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>About</Link></li>
         {role === "admin" && (
           <li><Link to="/admin" className="nav-link" onClick={() => setMenuOpen(false)}>Admin</Link></li>
         )}

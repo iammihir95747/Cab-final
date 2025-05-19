@@ -1,7 +1,6 @@
 // Vehicle.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Helmet } from 'react-helmet-async';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Vehicle = () => {
@@ -119,16 +118,7 @@ const Vehicle = () => {
 
   return (
     <div>
-     <Helmet>
-  <title> chamundacab | Affordable & Reliable Cab Booking Service</title>
-  <meta
-    name="description"
-    content="Book reliable and affordable taxi service from Gujarat . Best cab booking with experienced drivers, one-way and round-trip options, 24/7 customer support."
-  />
- <meta name="keywords" content="Chamunda Cab, taxi service, reliable cab, one-way taxi, round trip cab, airport transfer, local taxi, hatchback taxi, sedan taxi, SUV taxi, cab booking, taxi near me, hassle-free ride" />
-
-  <link rel="canonical" href="https://www.chamundacab.com/Vehicles" />
-</Helmet>
+     
 
 
       {!fromBooking && (

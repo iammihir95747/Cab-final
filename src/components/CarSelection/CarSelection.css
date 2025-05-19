@@ -1,7 +1,6 @@
 #car-selection {
   padding: 20px 0;
   cursor: pointer;
- 
 }
 
 #car-selection h2 {
@@ -118,4 +117,140 @@
 
 .car-card button:hover {
   background-color: #000000;
+}
+
+
+.car-box {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.car-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.car-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.car-info {
+  padding: 15px;
+  text-align: center;
+}
+
+.book-btn {
+  background-color: #007bff;
+  border: none;
+  padding: 8px 16px;
+  color: white;
+  border-radius: 8px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.book-btn:hover {
+  background-color: #0056b3;
+}
+
+.spinner {
+  margin: 50px auto;
+  border: 8px solid #f3f3f3; /* Light gray */
+  border-top: 8px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+/* Animation keyframes */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.car-box {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  transition: box-shadow 0.3s;
+  background: #fff;
+}
+
+.car-box:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.car-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.car-info {
+  margin-top: 10px;
+}
+
+.book-btn {
+  background-color: #ffc107;
+  border: none;
+  color: #000;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.book-btn:hover {
+  background-color: #e0a800;
+}
+
+/* Dot Dot Dot Spinner */
+.dot-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 60px 0;
+  letter-spacing: 1rem;
+  height: 100px;
+}
+
+.dot {
+  opacity: 0.2;
+  animation-name: blink;
+  animation-duration: 1.4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
 }
