@@ -50,6 +50,7 @@ html, body {
 }
 .hero-left h1 {
   font-size: 3rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-bottom: 1rem;
 }
 .hero-left p {
@@ -185,3 +186,4 @@ html, body {
     font-size: 0.95rem;
   }
 }
+  

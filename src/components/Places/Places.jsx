@@ -1,10 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import './places.css';
 import Footer from '../Footer/Footer';
-
-
-const WHATSAPP_BUSINESS_NUMBER = '+919574713004';
 
 const famousPlaces = [
   {
@@ -25,7 +22,7 @@ const famousPlaces = [
   {
     name: 'Statue of Unity',
     image: 'https://www.holidify.com/images/cmsuploads/compressed/shutterstock_1317845540_20191031110021_20191031110103.png',
-    description: 'The Statue of Unity is the world\'s tallest statue',
+    description: "The Statue of Unity is the world's tallest statue",
   },
   {
     name: 'Mumbai Siddhivinayak temple',
@@ -41,23 +38,15 @@ const allPlaces = [
   { name: 'Kutchh Rannotsav', district: 'Kutch', type: 'Festival/Desert' },
 ];
 
-const galleryImages = [
-  'car1.jpg', 'car2.jpg', 'car3.jpg', 'car4.jpg', 'car5.jpg', 'car6.jpg'
-];
-
 export default function Places() {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
-  // Updated handleBookNow function to navigate to the Booking component
   const handleBookNow = (place) => {
-    navigate('/booking', { state: { place } }); // Pass place details to Booking page
+    navigate('/booking', { state: { place } });
   };
 
   return (
     <>
- 
-
-
       <div className="tourism-container">
         <h2 className="section-title">Some Of The Famous Travelling Places</h2>
 

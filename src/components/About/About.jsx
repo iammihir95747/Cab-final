@@ -1,18 +1,40 @@
+// About.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import "./About.css"; // Import external CSS
-import Footer  from "../Footer/Footer";
+import { Helmet } from "react-helmet-async";
+import Footer from "../Footer/Footer";
+import "./About.css";
 
+const features = [
+  {
+    title: "24/7 Service",
+    icon: "https://cdn-icons-png.flaticon.com/512/888/888879.png",
+    text: "Reliable rides at any time, day or night. We're just one call away!",
+  },
+  {
+    title: "Affordable Pricing",
+    icon: "https://cdn-icons-png.flaticon.com/512/1046/1046793.png",
+    text: "Transparent and fair prices. No hidden surprises!",
+  },
+  {
+    title: "Professional Drivers",
+    icon: "https://cdn-icons-png.flaticon.com/512/3135/3135823.png",
+    text: "Trained and courteous drivers ensuring your safety.",
+  },
+];
 
-const About = () => {
-  return (
-    <>
- 
+const About = () => (
+  <>
+    <Helmet>
+      <title>About Us | ChamundaCab</title>
+      <meta name="description" content="Smooth, safe and memorable journeys with ChamundaCab service." />
+    </Helmet>
+
     <section className="about-section">
-      <motion.div 
-        initial={{ opacity: 0, y: 50 }} 
-        whileInView={{ opacity: 1, y: 0 }} 
-        transition={{ duration: 0.8 }} 
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
         viewport={{ once: true }}
         className="about-container"
       >
@@ -23,47 +45,24 @@ const About = () => {
         </p>
 
         <div className="about-features">
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="feature-card"
-          >
-            <img src="https://cdn-icons-png.flaticon.com/512/888/888879.png" alt="24/7 Service" className="feature-icon" />
-            <h3 className="feature-title">24/7 Service</h3>
-            <p className="feature-text">
-              Reliable rides at any time, day or night. We’re just one call away!
-            </p>
-          </motion.div>
-
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="feature-card"
-          >
-            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046793.png" alt="Affordable Pricing" className="feature-icon" />
-            <h3 className="feature-title">Affordable Pricing</h3>
-            <p className="feature-text">
-              Transparent and fair prices. No hidden surprises!
-            </p>
-          </motion.div>
-
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="feature-card"
-          >
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135823.png" alt="Professional Drivers" className="feature-icon" />
-            <h3 className="feature-title">Professional Drivers</h3>
-            <p className="feature-text">
-              Trained and courteous drivers ensuring your safety.
-            </p>
-          </motion.div>
+          {features.map(({ title, icon, text }, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="feature-card"
+            >
+              <img src={icon} alt={title} className="feature-icon" loading="lazy" />
+              <h3 className="feature-title">{title}</h3>
+              <p className="feature-text">{text}</p>
+            </motion.div>
+          ))}
         </div>
       </motion.div>
     </section>
+
     <Footer />
-    </>
-  );
-};
+  </>
+);
 
 export default About;

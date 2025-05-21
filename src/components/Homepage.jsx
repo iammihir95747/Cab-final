@@ -3,7 +3,6 @@ import Footer from './Footer/Footer';
 import CarSelection from './CarSelection/CarSelection';
 import './Home.css';
 
-
 const Homepage = () => {
   const scrollToBooking = () => {
     const bookingSection = document.getElementById('booking');
@@ -14,17 +13,13 @@ const Homepage = () => {
 
   return (
     <>
- 
-
-
       <section id="hero">
         <div className="hero-content">
           <div className="hero-left">
-            <h1>
-            Most Trusted Cab booking Service.</h1>
+            <h1>Most Trusted Cab Booking Service.</h1>
             <p>
-              Experience the best cab service in the city – safe, reliable, and always on time.
-              Let us drive you to your destination in style.
+              Experience the best cab service in the city – safe, reliable, and always on time. Let us drive
+              you to your destination in style.
             </p>
             <button className="btn-book" onClick={scrollToBooking}>
               Book Now
@@ -56,20 +51,20 @@ const Homepage = () => {
       <section id="info">
         <h2>Why Choose Our Cab Service?</h2>
         <p>
-          Our fleet of modern vehicles, along with our professional and courteous drivers, guarantees a smooth
-          and secure ride every time. Whether you're heading to an important meeting or exploring the city on a
-          weekend, our service is tailored to meet your needs. Enjoy state-of-the-art booking options and
-          excellent customer support that puts you first.
+          Our fleet of modern vehicles, along with our professional and courteous drivers, guarantees a smooth and
+          secure ride every time. Whether you're heading to an important meeting or exploring the city on a weekend,
+          our service is tailored to meet your needs. Enjoy state-of-the-art booking options and excellent customer
+          support that puts you first.
         </p>
       </section>
 
       <section id="booking">
-        <h2>Book Your Ride Today </h2>
-        <hr className='bookridehr' />
+        <h2>Book Your Ride Today</h2>
+        <hr className="bookridehr" />
         <CarSelection />
       </section>
 
-      <Footer />  
+      <Footer />
     </>
   );
 };

@@ -90,7 +90,7 @@ const Services = () => {
               </p>
             </motion.div>
           </div>
-
+    <br /> <br />
           <p className="services-cta">
             Ready to book your ride? <a href="/booking">Book your taxi now</a>  We are here 24/7 to serve you.
           </p>

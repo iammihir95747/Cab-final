@@ -1,31 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import Footer from '../Footer/Footer';
-import emailjs from 'emailjs-com';
-import './Booking.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import Footer from "../Footer/Footer";
+import emailjs from "emailjs-com";
+import { Helmet } from "react-helmet-async";
+import "./Booking.css";
 
 const Booking = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const vehicleTypeFromCar = location.state?.vehicleType || '';
-  const carTypeFromCar = location.state?.carType || '';
+  const vehicleTypeFromCar = location.state?.vehicleType || "";
+  const carTypeFromCar = location.state?.carType || "";
   const previousForm = location.state?.formData || {};
 
   const [formData, setFormData] = useState({
-    name: previousForm.name || '',
-    phoneNumber: previousForm.phoneNumber || '',
-    pickupLocation: previousForm.pickupLocation || '',
-    dropLocation: previousForm.dropLocation || '',
-    vehicleType: vehicleTypeFromCar
-      ? `${vehicleTypeFromCar} (${carTypeFromCar})`
-      : previousForm.vehicleType || '',
-    pickupDateTime: previousForm.pickupDateTime || '',
-    notes: previousForm.notes || '',
+    name: previousForm.name || "",
+    phoneNumber: previousForm.phoneNumber || "",
+    pickupLocation: previousForm.pickupLocation || "",
+    dropLocation: previousForm.dropLocation || "",
+    vehicleType: vehicleTypeFromCar ? `${vehicleTypeFromCar} (${carTypeFromCar})` : previousForm.vehicleType || "",
+    pickupDateTime: previousForm.pickupDateTime || "",
+    notes: previousForm.notes || "",
   });
 
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [isCarSelected, setIsCarSelected] = useState(!!(vehicleTypeFromCar || previousForm.vehicleType));
 
   useEffect(() => {
@@ -40,109 +39,75 @@ const Booking = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const validateForm = () => {
     const { name, phoneNumber, pickupLocation, dropLocation, pickupDateTime, vehicleType } = formData;
     if (!name || !phoneNumber || !pickupLocation || !dropLocation || !pickupDateTime || !vehicleType) {
-      return 'Please fill in all required fields.';
+      return "Please fill in all required fields.";
     }
-
     const phoneRegex = /^[6-9]\d{9}$/;
     if (!phoneRegex.test(phoneNumber)) {
-      return 'Enter a valid 10-digit Indian phone number.';
+      return "Enter a valid 10-digit Indian phone number.";
     }
-
-    return '';
+    return "";
   };
 
-  const buildWhatsAppMessage = () => {
-    return `
-🚕 *New Booking Request* 🚕
-Name: ${formData.name}
-Phone: ${formData.phoneNumber}
-Pickup: ${formData.pickupLocation}
-Drop: ${formData.dropLocation}
-Vehicle: ${formData.vehicleType}
-Pickup Date & Time: ${formData.pickupDateTime}
-Notes: ${formData.notes || 'None'}
-    `;
-  };
+  const buildWhatsAppMessage = () => `\n🚕 *New Booking Request* 🚕\nName: ${formData.name}\nPhone: ${formData.phoneNumber}\nPickup: ${formData.pickupLocation}\nDrop: ${formData.dropLocation}\nVehicle: ${formData.vehicleType}\nPickup Date & Time: ${formData.pickupDateTime}\nNotes: ${formData.notes || "None"}`;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrorMessage('');
-    setSuccessMessage('');
+    setErrorMessage("");
+    setSuccessMessage("");
 
     const validationError = validateForm();
     if (validationError) {
-      setErrorMessage('❌ ' + validationError);
+      setErrorMessage("❌ " + validationError);
       return;
     }
 
     const driverMessageParams = {
-      name: formData.name,
-      phoneNumber: formData.phoneNumber,
-      pickupLocation: formData.pickupLocation,
-      dropLocation: formData.dropLocation,
-      vehicleType: formData.vehicleType,
-      pickupDateTime: formData.pickupDateTime,
-      notes: formData.notes || 'None',
-      to_email: 'gohelvivek0000@gmail.com',
+      ...formData,
+      to_email: "gohelvivek0000@gmail.com",
     };
 
     const userReplyParams = {
       name: formData.name,
-      user_email: formData.phoneNumber , 
-      title: 'Your Booking Confirmation',
+      user_email: formData.phoneNumber,
+      title: "Your Booking Confirmation",
     };
 
-    emailjs.send('service_x81hdl5', 'template_l3y1iac', driverMessageParams, '1EUYac5PvrZJTLjGS')
-      .then((response) => {
-        console.log('Driver email sent!', response);
-      })
-      .catch((error) => {
-        console.error('Error sending to driver:', error);
-      });
+    emailjs.send("service_x81hdl5", "template_l3y1iac", driverMessageParams, "1EUYac5PvrZJTLjGS")
+      .then(() => console.log("Driver email sent!"))
+      .catch((error) => console.error("Error sending to driver:", error));
 
-    emailjs.send('service_x81hdl5', 'template_ds9zdxl', userReplyParams, '1EUYac5PvrZJTLjGS')
-      .then((response) => {
-        console.log('User auto-reply sent!', response);
-        setSuccessMessage('✅ Booking sent to driver and confirmation sent to your email!');
+    emailjs.send("service_x81hdl5", "template_ds9zdxl", userReplyParams, "1EUYac5PvrZJTLjGS")
+      .then(() => {
+        setSuccessMessage("✅ Booking sent to driver and confirmation sent to your email!");
         openWhatsAppLink(buildWhatsAppMessage());
       })
-      .catch((error) => {
-        console.error('Error sending auto-reply:', error);
-        setErrorMessage('❌ Auto-reply failed: ' + error.text);
-      });
+      .catch((error) => setErrorMessage("❌ Auto-reply failed: " + error.text));
   };
 
   const openWhatsAppLink = (message) => {
     const encodedMessage = encodeURIComponent(message);
-    const driverPhoneNumber = '919054891423';
-    const whatsappLink = `https://wa.me/${driverPhoneNumber}?text=${encodedMessage}`;
-    window.open(whatsappLink, '_blank');
+    const whatsappLink = `https://wa.me/919054891423?text=${encodedMessage}`;
+    window.open(whatsappLink, "_blank");
   };
 
-  const handleSelectVehicle = () => {
-    navigate('/vehicles', { state: { fromBooking: true, formData } });
-  };
-
+  const handleSelectVehicle = () => navigate("/vehicles", { state: { fromBooking: true, formData } });
   const handleChangeVehicle = () => {
     setIsCarSelected(false);
-    setFormData((prev) => ({
-      ...prev,
-      vehicleType: '',
-    }));
+    setFormData((prev) => ({ ...prev, vehicleType: "" }));
   };
 
   return (
     <>
-     
+      <Helmet>
+        <title>Book Your Ride | ChamundaCab</title>
+        <meta name="description" content="Book a taxi easily with ChamundaCab's user-friendly form." />
+      </Helmet>
 
       <div className="booking-form-section">
         <h2 className="booking-title">Book Your Ride</h2>
@@ -155,6 +120,7 @@ Notes: ${formData.notes || 'None'}
           ) : (
             <button type="button" onClick={handleSelectVehicle}>Select Vehicle</button>
           )}
+
           <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
           <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone Number" required />
           <input type="text" name="pickupLocation" value={formData.pickupLocation} onChange={handleChange} placeholder="Pickup Location" required />
@@ -167,7 +133,6 @@ Notes: ${formData.notes || 'None'}
           {successMessage && <p className="success-message">{successMessage}</p>}
         </form>
       </div>
-
       <Footer />
     </>
   );
